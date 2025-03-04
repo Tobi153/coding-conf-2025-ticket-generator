@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+/* Variables */
+:root {
+  /* Colors */
+  --neutral-0: hsl(0, 0%, 100%);
+  --neutral-300: hsl(252, 6%, 83%);
+  --neutral-500: hsl(245, 15%, 58%);
+  --neutral-700: hsl(245, 19%, 35%);
+  --neutral-900: hsl(248, 70%, 10%);
+
+  --orange-500: hsl(7, 88%, 67%);
+  --orange-700: hsl(7, 71%, 60%);
+
+  --gradient-orange: hsl(7, 86%, 67%);
+  --gradient-white: hsl(0, 0%, 100%);
+
+  /* Font family */
+  --font: "Inconsolata", serif;
+  /* Font Sizes */
+  --body-text: 20px;
+  --medium-text: 24px;
+  --large-text: 64px;
+}
