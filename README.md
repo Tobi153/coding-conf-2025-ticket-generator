@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +69,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+=======
+# coding-conf-2025-ticket-generator
+This respository generates conference ticket for a fictional conference in the year 2025. It allows users to upload their profile (not more than 500KB), enter their full name, email and github address.
+>>>>>>> a79640d7702f3fd70408ac452e505f6e6b818657
