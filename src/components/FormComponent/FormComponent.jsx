@@ -1,6 +1,6 @@
 import "./FormComponent.css";
 import "../../styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ReactComponent as IconInfo } from "../../assets/images/icon-info.svg";
 import IconUpload from "../../assets/images/icon-upload.svg";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ const FormComponent = () => {
     setGithubUserName,
   } = useFormContext();
   const [errors, setErrors] = useState({});
+  const [dragActive, setDragActive] = useState(false);
+  const dropRef = useRef(null);
 
   const navigate = useNavigate();
   const messages = {
@@ -46,7 +48,8 @@ const FormComponent = () => {
 
   const validateAvatar = (file) => {
     if (!file) return false;
-    return file.size <= 500 * 1024;
+    const validTypes = ["image/jpeg", "image/png"];
+    return validTypes.includes(file.type) && file.size <= 500 * 1024;
   };
 
   const validateForm = () => {
@@ -80,10 +83,9 @@ const FormComponent = () => {
     return Object.keys(newErrors).length === 0; // Return true if there is no error
   };
 
-  const handleAvatar = (e) => {
-    const file = e.target.files[0];
+  const handleAvatar = (file) => {
     if (file) {
-      if (file.size > 500 * 1024) {
+      if (!validateAvatar(file)) {
         setErrors((err) => ({
           ...err,
           avatar: messages.avatar.errorMessage,
@@ -158,13 +160,40 @@ const FormComponent = () => {
     };
   }, [avatar]);
 
+  // Drag-and-drop event handlers
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleAvatar(e.dataTransfer.files[0]);
+    }
+  };
+
   return (
     <form
       className="form-container"
       onSubmit={handleSubmit}
       onKeyDown={handleKeyPress}
     >
-      <div className="input-group avatar-group">
+      <div
+        className={`input-group avatar-group `}
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleAvatar}
+        onDrop={handleDrop}
+        ref={dropRef}
+      >
         <label htmlFor="avatar">Upload Avatar</label>
         <input
           type="file"
@@ -173,6 +202,7 @@ const FormComponent = () => {
           title="Drag or drop your file here"
           accept=".jpg, .jpeg, .png"
           onChange={handleAvatar}
+          className={`${dragActive ? "drag-active" : ""}`}
         ></input>
         {!avatar ? (
           <p className="avatar-text">Drag and drop or click to upload</p>
